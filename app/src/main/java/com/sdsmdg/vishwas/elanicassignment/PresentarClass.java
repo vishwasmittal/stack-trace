@@ -2,8 +2,6 @@ package com.sdsmdg.vishwas.elanicassignment;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.io.IOException;
@@ -21,6 +19,79 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class PresentarClass {
+
+    static void initiateActivity(MainActivity context){
+        context.startMainActivity();
+
+
+    }
+
+    static StackApiClient setUpRestClient(){
+        String API_BASE_URL = "https://api.stackexchange.com";
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.client(httpClient.build()).build();
+        return retrofit.create(StackApiClient.class);
+    }
+
+    public static void getData(final MainActivity context, String query) {
+//        String API_BASE_URL = "https://api.stackexchange.com";
+//
+//        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+//
+//        Retrofit.Builder builder = new Retrofit.Builder()
+//                .baseUrl(API_BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create());
+//
+//        Retrofit retrofit = builder.client(httpClient.build()).build();
+//        StackApiClient client = retrofit.create(StackApiClient.class);
+        Log.e("getData", "entered");
+        StackApiClient client = setUpRestClient();
+        Call<QuestionClass> call = client.getQuestions(query);
+        call.enqueue(new Callback<QuestionClass>() {
+            @Override
+            public void onResponse(Call<QuestionClass> call, Response<QuestionClass> response) {
+                if (response.isSuccessful()) {
+                    QuestionClass questions = response.body();
+                    Log.e("onResponse", "Success, items" + String.valueOf(questions.getSize()));
+                    if (questions.getSize() == 0){
+//                        statusImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.no_result_found));
+                        context.noResultFound();
+                    }else {
+//                        statusImage.setImageResource(0);
+                        context.clearImage();
+                    }
+                    context.setAdapter(questions);
+                } else {
+                    Log.e("onResponse", "response unsuccessful, " + response.toString());
+//                    statusImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.http_error));
+//                    TODO: make a clear adapter method
+                    context.httpError();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuestionClass> call, Throwable t) {
+                t.printStackTrace();
+                if (t instanceof HttpException){
+                    Log.e("onFailure", "HTTP Exception");
+//                    statusImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.http_error));
+                    context.httpError();
+                }
+                else if (t instanceof IOException) {
+                    Log.e("onFailure", "IOError");
+//                    statusImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.connection_error));
+                    context.connectionError();
+                } else {
+//                    statusImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.sad_icon));
+                    context.unknownError();
+                }
+            }
+        });
+    }
+
 
 //    public static void getData(Context context, String query) {
 //        String API_BASE_URL = "https://api.stackexchange.com";
