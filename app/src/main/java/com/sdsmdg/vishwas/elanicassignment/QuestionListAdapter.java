@@ -1,6 +1,8 @@
 package com.sdsmdg.vishwas.elanicassignment;
 
 import android.content.Context;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -17,7 +19,6 @@ import android.widget.Toast;
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.ViewHolder> {
 
     private QuestionClass questionObject;
-    private Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView username;
@@ -34,9 +35,8 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         }
     }
 
-    public QuestionListAdapter(Context context, QuestionClass questionObject) {
+    public QuestionListAdapter(QuestionClass questionObject) {
         this.questionObject = questionObject;
-        this.context = context;
     }
 
 
@@ -52,11 +52,14 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         holder.questionTitle.setText(item.getTitle());
         holder.questionText.setText(Html.fromHtml(item.getBody()));
         holder.username.setText(item.getOwner().getDisplay_name());
+//        holder.profilePic.setImageURI(Uri.parse(item.getOwner().getProfile_image()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+                CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
+                customTabsIntent.launchUrl(v.getContext(), Uri.parse(item.getLink()));
             }
         });
     }
