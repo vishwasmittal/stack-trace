@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ElanicAssignment1</string>
+    <string name="app_name">Stack Trace</string>
 
     <string name="error_descriptor">Error descriptor</string>
     <string name="profile_pic">Profile pic</string>
