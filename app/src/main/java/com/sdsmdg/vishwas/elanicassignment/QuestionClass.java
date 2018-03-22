@@ -105,4 +105,8 @@ public class QuestionClass {
     public void setItems(List<Items> items) {
         this.items = items;
     }
+
+    public int getSize(){
+        return items.size();
+    }
 }

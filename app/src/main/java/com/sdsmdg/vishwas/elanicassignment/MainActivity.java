@@ -2,6 +2,8 @@ package com.sdsmdg.vishwas.elanicassignment;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import okhttp3.OkHttpClient;
@@ -30,21 +32,27 @@ public class MainActivity extends AppCompatActivity {
 
         StackApiClient client = retrofit.create(StackApiClient.class);
 
-        Call<QuestionClass> call = client.getQuestions();
+        Call<QuestionClass> call = client.getQuestions("Android");
+
+        final RecyclerView questionList = findViewById(R.id.question_list);
+        questionList.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
         call.enqueue(new Callback<QuestionClass>() {
             @Override
             public void onResponse(Call<QuestionClass> call, Response<QuestionClass> response) {
-                Log.e("Retrofit success", response.toString());
-//                response.
+                if (response.isSuccessful()) {
+                    QuestionClass questions = response.body();
+                    Log.e("onResponse", "Success, items" + String.valueOf(questions.getSize()));
+                    questionList.setAdapter(new QuestionListAdapter(getApplicationContext(), questions));
+                } else {
+                    Log.e("onResponse", "response unsuccessful");
+                }
             }
 
             @Override
             public void onFailure(Call<QuestionClass> call, Throwable t) {
-                Log.e("Call failed", t.toString());
+                t.printStackTrace();
             }
         });
-
-
     }
 }
