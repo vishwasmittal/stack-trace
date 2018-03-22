@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ProgressBar;
 
-import com.sdsmdg.vishwas.elanicassignment.QuestionListAdapter;
+import com.sdsmdg.vishwas.elanicassignment.adapters.QuestionListAdapter;
 import com.sdsmdg.vishwas.elanicassignment.R;
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 import com.sdsmdg.vishwas.elanicassignment.presenters.PresenterClass;
@@ -67,14 +67,11 @@ public class MainActivity extends AppCompatActivity {
     public void setAdapter(QuestionClass questions) {
         this.questions.setItems(questions.getItems());
         questionListAdapter.notifyDataSetChanged();
-//        questionList.setAdapter();
     }
 
     public void clearAdapter(){
-//        questionList.removeAllViews();
         questions.clear();
         questionListAdapter.notifyDataSetChanged();
-//        questionList.setAdapter(new QuestionListAdapter(MainActivity.this, new QuestionClass()));
     }
 
     public void clearScreen(){

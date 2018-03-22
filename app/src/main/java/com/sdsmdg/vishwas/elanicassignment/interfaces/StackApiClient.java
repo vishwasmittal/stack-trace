@@ -1,4 +1,4 @@
-package com.sdsmdg.vishwas.elanicassignment;
+package com.sdsmdg.vishwas.elanicassignment.interfaces;
 
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 

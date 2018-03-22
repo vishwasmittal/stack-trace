@@ -1,4 +1,4 @@
-package com.sdsmdg.vishwas.elanicassignment;
+package com.sdsmdg.vishwas.elanicassignment.adapters;
 
 import android.content.Context;
 import android.net.Uri;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.sdsmdg.vishwas.elanicassignment.R;
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 
 

@@ -6,7 +6,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.sdsmdg.vishwas.elanicassignment.views.MainActivity;
-import com.sdsmdg.vishwas.elanicassignment.StackApiClient;
+import com.sdsmdg.vishwas.elanicassignment.interfaces.StackApiClient;
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 
 import java.io.IOException;
