@@ -7,14 +7,4 @@
         android:title="search"
         appcompat:actionViewClass="android.support.v7.widget.SearchView"
         appcompat:showAsAction="ifRoom|collapseActionView" />
-    <!--<menu xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android">-->
-    <!--<item-->
-    <!--android:id="@+id/search"-->
-    <!--android:icon="@android:drawable/ic_menu_search"-->
-    <!--android:title="Search"-->
-    <!--app:showAsAction="ifRoom" />-->
-    <!--&lt;!&ndash;<item android:id="@+id/help"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:icon="@drawable/ic_help"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:title="@string/help" />&ndash;&gt;-->
 </menu>

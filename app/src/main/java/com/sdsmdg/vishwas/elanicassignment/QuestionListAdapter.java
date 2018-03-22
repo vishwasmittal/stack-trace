@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 /**
  * Created by vishwas on 22/3/18.
  */
@@ -19,6 +22,7 @@ import android.widget.Toast;
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.ViewHolder> {
 
     private QuestionClass questionObject;
+    private Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView username;
@@ -35,8 +39,9 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         }
     }
 
-    public QuestionListAdapter(QuestionClass questionObject) {
+    public QuestionListAdapter(Context context, QuestionClass questionObject) {
         this.questionObject = questionObject;
+        this.context = context;
     }
 
 
@@ -52,7 +57,15 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         holder.questionTitle.setText(item.getTitle());
         holder.questionText.setText(Html.fromHtml(item.getBody()));
         holder.username.setText(item.getOwner().getDisplay_name());
-//        holder.profilePic.setImageURI(Uri.parse(item.getOwner().getProfile_image()));
+
+        Glide.with(context)
+                .load(item.getOwner().getProfile_image())
+                .placeholder(R.mipmap.ic_launcher_round)
+                .thumbnail(0.5f)
+                .bitmapTransform(new jp.wasabeef.glide.transformations.CropCircleTransformation(context))
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.profilePic);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

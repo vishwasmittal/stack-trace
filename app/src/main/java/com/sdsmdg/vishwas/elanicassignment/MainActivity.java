@@ -38,28 +38,6 @@ public class MainActivity extends AppCompatActivity {
             getData(query);
         } else {
             getData("Android");
-//            Call<QuestionClass> call = client.getQuestions("js");
-//
-//            final RecyclerView questionList = findViewById(R.id.question_list);
-//            questionList.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-//
-//            call.enqueue(new Callback<QuestionClass>() {
-//                @Override
-//                public void onResponse(Call<QuestionClass> call, Response<QuestionClass> response) {
-//                    if (response.isSuccessful()) {
-//                        QuestionClass questions = response.body();
-//                        Log.e("onResponse", "Success, items" + String.valueOf(questions.getSize()));
-//                        questionList.setAdapter(new QuestionListAdapter(questions));
-//                    } else {
-//                        Log.e("onResponse", "response unsuccessful");
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<QuestionClass> call, Throwable t) {
-//                    t.printStackTrace();
-//                }
-//            });
         }
     }
 
@@ -86,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     QuestionClass questions = response.body();
                     Log.e("onResponse", "Success, items" + String.valueOf(questions.getSize()));
-                    questionList.setAdapter(new QuestionListAdapter(questions));
+                    questionList.setAdapter(new QuestionListAdapter(MainActivity.this, questions));
                 } else {
                     Log.e("onResponse", "response unsuccessful");
                 }
