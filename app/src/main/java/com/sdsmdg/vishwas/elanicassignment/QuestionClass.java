@@ -2,9 +2,6 @@ package com.sdsmdg.vishwas.elanicassignment;
 
 import java.util.List;
 
-/**
- * Created by vishwas on 22/3/18.
- */
 
 public class QuestionClass {
 
@@ -106,7 +103,7 @@ public class QuestionClass {
         this.items = items;
     }
 
-    public int getSize(){
+    public int getSize() {
         return items.size();
     }
 }
