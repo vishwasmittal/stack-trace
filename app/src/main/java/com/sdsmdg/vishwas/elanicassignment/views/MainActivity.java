@@ -1,9 +1,7 @@
-package com.sdsmdg.vishwas.elanicassignment;
+package com.sdsmdg.vishwas.elanicassignment.views;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,23 +11,32 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
-import static com.sdsmdg.vishwas.elanicassignment.PresenterClass.getData;
+import com.sdsmdg.vishwas.elanicassignment.QuestionListAdapter;
+import com.sdsmdg.vishwas.elanicassignment.R;
+import com.sdsmdg.vishwas.elanicassignment.SuggestionProvider;
+import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
+import com.sdsmdg.vishwas.elanicassignment.presenters.PresenterClass;
+
+import static com.sdsmdg.vishwas.elanicassignment.presenters.PresenterClass.getData;
 
 public class MainActivity extends AppCompatActivity {
 
     private ImageView statusImage;
     private Toolbar toolbar;
     private RecyclerView questionList;
+    private ProgressBar progressBar;
+    private QuestionListAdapter questionListAdapter;
+    private QuestionClass questions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PresenterClass.startApp(MainActivity.this);
-//        PresenterClass.initiateActivity(MainActivity.this);
     }
 
     public void showSplash() {
@@ -42,13 +49,34 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         statusImage = findViewById(R.id.status_image);
+        progressBar = findViewById(R.id.simpleProgressBar);
         questionList = findViewById(R.id.question_list);
         questionList.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        questions = new QuestionClass();
+        questionListAdapter = new QuestionListAdapter(MainActivity.this, questions);
+        questionList.setAdapter(questionListAdapter);
         getData(MainActivity.this, "Android");
     }
 
+    public void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar(){
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
     public void setAdapter(QuestionClass questions) {
-        questionList.setAdapter(new QuestionListAdapter(MainActivity.this, questions));
+        this.questions.setItems(questions.getItems());
+        questionListAdapter.notifyDataSetChanged();
+//        questionList.setAdapter();
+    }
+
+    public void clearAdapter(){
+//        questionList.removeAllViews();
+        questions.clear();
+        questionListAdapter.notifyDataSetChanged();
+//        questionList.setAdapter(new QuestionListAdapter(MainActivity.this, new QuestionClass()));
     }
 
     public void noResultFound() {

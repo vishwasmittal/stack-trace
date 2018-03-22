@@ -1,5 +1,6 @@
-package com.sdsmdg.vishwas.elanicassignment;
+package com.sdsmdg.vishwas.elanicassignment.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -95,6 +96,10 @@ public class QuestionClass {
 
     private List<Items> items;
 
+    public QuestionClass(){
+        items = new ArrayList<>();
+    }
+
     public List<Items> getItems() {
         return items;
     }
@@ -105,5 +110,9 @@ public class QuestionClass {
 
     public int getSize() {
         return items.size();
+    }
+
+    public void clear(){
+        items.clear();
     }
 }

@@ -14,7 +14,7 @@
         <provider
             android:name=".SuggestionProvider"
             android:authorities="com.sdsmdg.vishwas.elanicassignment.SuggestionProvider" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

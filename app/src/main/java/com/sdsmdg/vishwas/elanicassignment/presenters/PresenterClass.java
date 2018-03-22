@@ -1,4 +1,4 @@
-package com.sdsmdg.vishwas.elanicassignment;
+package com.sdsmdg.vishwas.elanicassignment.presenters;
 
 //import android.os.Looper;
 
@@ -6,6 +6,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+
+import com.sdsmdg.vishwas.elanicassignment.views.MainActivity;
+import com.sdsmdg.vishwas.elanicassignment.StackApiClient;
+import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 
 import java.io.IOException;
 
@@ -20,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PresenterClass {
 
-    static void startApp(final MainActivity object) {
+    public static void startApp(final MainActivity object) {
         object.showSplash();
 
         final Handler handler = new Handler(Looper.getMainLooper()) {
@@ -30,22 +34,18 @@ public class PresenterClass {
                 object.startMainActivity();
             }
         };
-
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                try {Thread.sleep(1000);}
+                catch (InterruptedException e) {e.printStackTrace();}
                 handler.sendEmptyMessage(0);
             }
         });
         thread.start();
     }
 
-    static StackApiClient setUpRestClient() {
+    private static StackApiClient setUpRestClient() {
         String API_BASE_URL = "https://api.stackexchange.com";
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -56,11 +56,13 @@ public class PresenterClass {
     }
 
     public static void getData(final MainActivity context, String query) {
+        context.showProgressBar();
         StackApiClient client = setUpRestClient();
         Call<QuestionClass> call = client.getQuestions(query);
         call.enqueue(new Callback<QuestionClass>() {
             @Override
             public void onResponse(Call<QuestionClass> call, Response<QuestionClass> response) {
+                context.hideProgressBar();
                 if (response.isSuccessful()) {
                     QuestionClass questions = response.body();
                     Log.e("onResponse", "Success, items" + String.valueOf(questions.getSize()));
@@ -72,7 +74,7 @@ public class PresenterClass {
                     context.setAdapter(questions);
                 } else {
                     Log.e("onResponse", "response unsuccessful, " + response.toString());
-//                    TODO: make a clear adapter method
+                    context.clearAdapter();
                     context.httpError();
                 }
             }
