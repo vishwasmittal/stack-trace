@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showSplash();
         setContentView(R.layout.activity_main);
 
         toolbar = findViewById(R.id.toolbar);
@@ -52,6 +53,15 @@ public class MainActivity extends AppCompatActivity {
             getData(query);
         } else {
             getData("Android");
+        }
+    }
+
+    private void showSplash(){
+        setContentView(R.layout.splash_screen);
+        try {
+            wait(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -81,9 +91,9 @@ public class MainActivity extends AppCompatActivity {
                     if (questions.getSize() == 0){
                         statusImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.no_result_found));
                     }else {
-                        questionList.setAdapter(new QuestionListAdapter(MainActivity.this, questions));
                         statusImage.setImageResource(0);
                     }
+                    questionList.setAdapter(new QuestionListAdapter(MainActivity.this, questions));
                 } else {
                     Log.e("onResponse", "response unsuccessful, " + response.toString());
                     statusImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.http_error));
