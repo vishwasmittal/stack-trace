@@ -18,7 +18,8 @@
         app:layout_constraintEnd_toStartOf="@+id/username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        app:srcCompat="@mipmap/ic_launcher_round"
+        android:contentDescription="@string/profile_pic" />
 
     <TextView
         android:id="@+id/username"
@@ -27,8 +28,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textSize="12dp"
+        android:text="@string/username"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/profile_image"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,9 +43,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:maxLines="1"
-        android:text="TextView"
+        android:text="@string/question_title"
         android:textColor="@android:color/black"
-        android:textSize="15dp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/question_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/profile_image"
@@ -60,9 +61,9 @@
         android:layout_marginTop="8dp"
         android:maxLines="2"
         android:scrollHorizontally="false"
-        android:text="TextView"
+        android:text="@string/question_text"
         android:textColor="@android:color/black"
-        android:textSize="12dp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/separator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

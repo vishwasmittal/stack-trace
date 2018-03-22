@@ -16,9 +16,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 
-/**
- * Created by vishwas on 22/3/18.
- */
 
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.ViewHolder> {
 
@@ -64,7 +61,6 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         Glide.with(context)
                 .load(item.getOwner().getProfile_image())
                 .apply(requestOptions)
-//                .thumbnail(0.5f)
                 .into(holder.profilePic);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

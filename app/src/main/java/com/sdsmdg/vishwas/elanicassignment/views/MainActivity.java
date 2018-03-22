@@ -2,7 +2,6 @@ package com.sdsmdg.vishwas.elanicassignment.views;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.provider.SearchRecentSuggestions;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.ProgressBar;
 
 import com.sdsmdg.vishwas.elanicassignment.QuestionListAdapter;
 import com.sdsmdg.vishwas.elanicassignment.R;
-import com.sdsmdg.vishwas.elanicassignment.SuggestionProvider;
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 import com.sdsmdg.vishwas.elanicassignment.presenters.PresenterClass;
 
@@ -79,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
 //        questionList.setAdapter(new QuestionListAdapter(MainActivity.this, new QuestionClass()));
     }
 
+    public void clearScreen(){
+        clearImage();
+        clearAdapter();
+    }
+
     public void noResultFound() {
         statusImage.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.no_result_found));
     }
@@ -123,11 +126,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return true;
-    }
-
-    public void clearSearchSuggestions() {
-        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-        suggestions.clearHistory();
     }
 }

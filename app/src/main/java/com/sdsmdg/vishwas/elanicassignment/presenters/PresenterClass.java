@@ -1,7 +1,5 @@
 package com.sdsmdg.vishwas.elanicassignment.presenters;
 
-//import android.os.Looper;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -37,8 +35,11 @@ public class PresenterClass {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {Thread.sleep(1000);}
-                catch (InterruptedException e) {e.printStackTrace();}
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 handler.sendEmptyMessage(0);
             }
         });
@@ -56,6 +57,7 @@ public class PresenterClass {
     }
 
     public static void getData(final MainActivity context, String query) {
+        context.clearScreen();
         context.showProgressBar();
         StackApiClient client = setUpRestClient();
         Call<QuestionClass> call = client.getQuestions(query);

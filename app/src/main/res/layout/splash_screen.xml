@@ -17,5 +17,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/stackoverflow_logo" />
+        app:srcCompat="@drawable/stackoverflow_logo"
+        android:contentDescription="@string/stackoverflow" />
 </android.support.constraint.ConstraintLayout>

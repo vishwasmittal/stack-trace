@@ -54,5 +54,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/question_list"
-        app:srcCompat="@color/browser_actions_divider_color" />
+        app:srcCompat="@color/browser_actions_divider_color"
+        android:contentDescription="@string/error_descriptor" />
 </android.support.constraint.ConstraintLayout>
