@@ -41,7 +41,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:ellipsize="end"
         android:maxLines="1"
         android:text="TextView"
         android:textColor="@android:color/black"
@@ -59,13 +58,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:ellipsize="end"
         android:maxLines="2"
         android:scrollHorizontally="false"
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/separator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -73,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@+id/question_title"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
+    <View
         android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"

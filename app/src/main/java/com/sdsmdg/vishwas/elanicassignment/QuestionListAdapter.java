@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 /**
  * Created by vishwas on 22/3/18.
@@ -44,7 +45,6 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         this.context = context;
     }
 
-
     @Override
     public QuestionListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_item, parent, false);
@@ -58,13 +58,13 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         holder.questionText.setText(Html.fromHtml(item.getBody()));
         holder.username.setText(item.getOwner().getDisplay_name());
 
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.mipmap.ic_launcher_round);
+        requestOptions.transform(new jp.wasabeef.glide.transformations.CropCircleTransformation());
         Glide.with(context)
                 .load(item.getOwner().getProfile_image())
-                .placeholder(R.mipmap.ic_launcher_round)
-                .thumbnail(0.5f)
-                .bitmapTransform(new jp.wasabeef.glide.transformations.CropCircleTransformation(context))
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .apply(requestOptions)
+//                .thumbnail(0.5f)
                 .into(holder.profilePic);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -81,5 +81,4 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
     public int getItemCount() {
         return questionObject.getSize();
     }
-
 }
