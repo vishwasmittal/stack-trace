@@ -2,6 +2,8 @@ package com.sdsmdg.vishwas.elanicassignment.views;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
+import android.provider.SearchRecentSuggestions;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ProgressBar;
 
+import com.sdsmdg.vishwas.elanicassignment.SuggestionProvider;
 import com.sdsmdg.vishwas.elanicassignment.adapters.QuestionListAdapter;
 import com.sdsmdg.vishwas.elanicassignment.R;
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
@@ -34,7 +37,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PresenterClass.startApp(MainActivity.this);
+        PresenterClass.startActivity(MainActivity.this, getSearchQuery());
+    }
+
+    public String getSearchQuery() {
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                    SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
+            suggestions.saveRecentQuery(query, null);
+            return query;
+        } else {
+            return null;
+        }
     }
 
     public void showSplash() {
@@ -42,10 +58,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void startMainActivity() {
+    public void startMainActivity(String query) {
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         statusImage = findViewById(R.id.status_image);
         progressBar = findViewById(R.id.simpleProgressBar);
         questionList = findViewById(R.id.question_list);
@@ -53,14 +70,14 @@ public class MainActivity extends AppCompatActivity {
         questions = new QuestionClass();
         questionListAdapter = new QuestionListAdapter(MainActivity.this, questions);
         questionList.setAdapter(questionListAdapter);
-        getData(MainActivity.this, "Android");
+        getData(MainActivity.this, query);
     }
 
-    public void showProgressBar(){
+    public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    public void hideProgressBar(){
+    public void hideProgressBar() {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
@@ -69,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
         questionListAdapter.notifyDataSetChanged();
     }
 
-    public void clearAdapter(){
+    public void clearAdapter() {
         questions.clear();
         questionListAdapter.notifyDataSetChanged();
     }
 
-    public void clearScreen(){
+    public void clearScreen() {
         clearImage();
         clearAdapter();
     }
@@ -100,6 +117,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
@@ -113,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchView.clearFocus();
-                getData(MainActivity.this, query);
-                return true;
+//                getData(MainActivity.this, query);
+                return false;
             }
 
             @Override

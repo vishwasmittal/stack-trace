@@ -22,28 +22,32 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PresenterClass {
 
-    public static void startApp(final MainActivity object) {
-        object.showSplash();
+    public static void startActivity(final MainActivity object, String query) {
+        if (query == null) {
+            object.showSplash();
 
-        final Handler handler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                object.startMainActivity();
-            }
-        };
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            final Handler handler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    object.startMainActivity("Android");
                 }
-                handler.sendEmptyMessage(0);
-            }
-        });
-        thread.start();
+            };
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    handler.sendEmptyMessage(0);
+                }
+            });
+            thread.start();
+        } else {
+            object.startMainActivity(query);
+        }
     }
 
     private static StackApiClient setUpRestClient() {
