@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.splash_screen);
     }
 
-    public void setDisplayHomeAsUpEnabled(){
+    public void setDisplayHomeAsUpEnabled() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(query);
     }
@@ -177,12 +177,20 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void setMenuItemText(String sort, String orderby) {
+        MenuItem sortItem = menu.findItem(R.id.sort);
+        MenuItem orderbyItem = menu.findItem(R.id.order_by);
+
+        sortItem.setTitle(getString(R.string.sort) + " - " + sort.toUpperCase().charAt(0) + sort.substring(1, sort.length()));
+        orderbyItem.setTitle(getString(R.string.order_by) + " - " + orderby.toUpperCase().charAt(0) + orderby.substring(1, orderby.length()));
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.e("onOptionsItemSelected", "Inside");
         String orderby = null;
         String sort = null;
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.search:
                 Log.e("onOptionsItemSelected", "Search option chosen");
                 return true;
@@ -210,20 +218,21 @@ public class MainActivity extends AppCompatActivity {
             case R.id.descending:
                 orderby = "desc";
                 break;
-            default: return false;
+            default:
+                return false;
         }
         scrollListener.resetState();
         getData(MainActivity.this, query, sort, orderby, 1);
         return true;
     }
 
-    public void temp(int id){
+    public void temp(int id) {
         Log.e("Temp", "Inside");
         try {
-        Log.e("temp, ID", String.valueOf(id));
+            Log.e("temp, ID", String.valueOf(id));
             MenuItem menuItem = menu.findItem(id);
             menuItem.setChecked(true);
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e("temp", "Error");
             e.printStackTrace();
         }

@@ -84,6 +84,7 @@ public class PresenterClass {
                 Log.e("sort", SORT);
                 context.temp(getMenuItemID(ORDER_BY));
                 context.temp(getMenuItemID(SORT));
+                context.setMenuItemText(SORT, ORDER_BY);
                 context.hideProgressBar();
                 if (response.isSuccessful()) {
                     QuestionClass questions = response.body();
@@ -139,5 +140,4 @@ public class PresenterClass {
                 return 0;
         }
     }
-
 }
