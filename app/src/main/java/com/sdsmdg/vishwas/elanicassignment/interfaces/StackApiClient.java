@@ -12,6 +12,7 @@ public interface StackApiClient {
     Call<QuestionClass> getQuestions(
             @Query("tagged") String tag,
             @Query("sort") String sort,
-            @Query("order") String order
+            @Query("order") String order,
+            @Query("page") int page
     );
 }

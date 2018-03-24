@@ -4,8 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.sdsmdg.vishwas.elanicassignment.R;
 import com.sdsmdg.vishwas.elanicassignment.views.MainActivity;
@@ -67,17 +65,17 @@ public class PresenterClass {
         return retrofit.create(StackApiClient.class);
     }
 
-    public static void getData(final MainActivity context, String query, String sort, String order_by) {
+    public static void getData(final MainActivity context, String query, final String sort, String order_by, final int page) {
         SORT = (sort != null) ? sort : SORT;
         ORDER_BY = (order_by != null) ? order_by : ORDER_BY;
 
 //        context.temp(getMenuItemID(ORDER_BY));
 //        context.temp(getMenuItemID(SORT));
 
-        context.clearScreen();
+        if (page == 1)  context.clearScreen();
         context.showProgressBar();
         StackApiClient client = setUpRestClient();
-        Call<QuestionClass> call = client.getQuestions(query, SORT, ORDER_BY);
+        Call<QuestionClass> call = client.getQuestions(query, SORT, ORDER_BY, page);
         call.enqueue(new Callback<QuestionClass>() {
             @Override
             public void onResponse(Call<QuestionClass> call, Response<QuestionClass> response) {
@@ -89,12 +87,12 @@ public class PresenterClass {
                 if (response.isSuccessful()) {
                     QuestionClass questions = response.body();
                     Log.e("onResponse", "Success, items" + String.valueOf(questions.getSize()));
-                    if (questions.getSize() == 0) {
+                    if (questions.getSize() == 0 && page == 1) {
                         context.noResultFound();
                     } else {
                         context.clearImage();
                     }
-                    context.setAdapter(questions);
+                    context.addItems(questions);
                 } else {
                     Log.e("onResponse", "response unsuccessful, " + response.toString());
                     context.clearAdapter();

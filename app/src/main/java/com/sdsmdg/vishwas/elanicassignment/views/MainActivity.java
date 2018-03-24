@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ProgressBar;
 
+import com.sdsmdg.vishwas.elanicassignment.EndlessRecyclerViewScrollListener;
 import com.sdsmdg.vishwas.elanicassignment.SuggestionProvider;
 import com.sdsmdg.vishwas.elanicassignment.adapters.QuestionListAdapter;
 import com.sdsmdg.vishwas.elanicassignment.R;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private QuestionClass questions;
     private Menu menu;
     private String query = "Android";
+    private int page;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.splash_screen);
     }
 
-    public void startMainActivity(String query) {
+    public void startMainActivity(final String query) {
         Log.e("startMainActivity", "Inside");
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
@@ -74,11 +77,20 @@ public class MainActivity extends AppCompatActivity {
         statusImage = findViewById(R.id.status_image);
         progressBar = findViewById(R.id.simpleProgressBar);
         questionList = findViewById(R.id.question_list);
-        questionList.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+        questionList.setLayoutManager(layoutManager);
         questions = new QuestionClass();
         questionListAdapter = new QuestionListAdapter(MainActivity.this, questions);
         questionList.setAdapter(questionListAdapter);
-        getData(MainActivity.this, query, null, null);
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.e("onLoadMore", "Page no: " + String.valueOf(page));
+                getData(MainActivity.this, query, null, null, page);
+            }
+        };
+        questionList.addOnScrollListener(scrollListener);
+        getData(MainActivity.this, query, null, null, 1);
         Log.e("startMainActivity", "exit");
     }
 
@@ -90,8 +102,9 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
-    public void setAdapter(QuestionClass questions) {
-        this.questions.setItems(questions.getItems());
+    public void addItems(QuestionClass questions) {
+//        this.questions.setItems(questions.getItems());
+        this.questions.addItems(questions.getItems());
         questionListAdapter.notifyDataSetChanged();
     }
 
@@ -194,7 +207,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             default: return false;
         }
-        getData(MainActivity.this, query, sort, orderby);
+        scrollListener.resetState();
+        getData(MainActivity.this, query, sort, orderby, 1);
         return true;
     }
 

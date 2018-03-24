@@ -108,6 +108,11 @@ public class QuestionClass {
         this.items = items;
     }
 
+    public void addItems(List<Items> items) {
+//        this.items = items;
+        this.items.addAll(items);
+    }
+
     public int getSize() {
         return items.size();
     }
