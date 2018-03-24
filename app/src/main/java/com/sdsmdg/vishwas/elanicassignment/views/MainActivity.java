@@ -68,12 +68,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.splash_screen);
     }
 
+    public void setDisplayHomeAsUpEnabled(){
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(query);
+    }
+
+
     public void startMainActivity(final String query) {
         Log.e("startMainActivity", "Inside");
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         statusImage = findViewById(R.id.status_image);
         progressBar = findViewById(R.id.simpleProgressBar);
         questionList = findViewById(R.id.question_list);

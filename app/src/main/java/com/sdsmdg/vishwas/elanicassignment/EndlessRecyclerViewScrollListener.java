@@ -1,4 +1,4 @@
-package com.sdsmdg.vishwas.elanicassignment;//package com.sdsmdg.vishwas.elanicassignment;
+package com.sdsmdg.vishwas.elanicassignment;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;

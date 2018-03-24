@@ -52,6 +52,7 @@ public class PresenterClass {
             thread.start();
         } else {
             object.startMainActivity(query);
+            object.setDisplayHomeAsUpEnabled();
         }
     }
 
