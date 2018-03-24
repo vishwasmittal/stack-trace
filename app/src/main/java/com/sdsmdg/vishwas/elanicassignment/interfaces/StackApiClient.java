@@ -8,8 +8,10 @@ import retrofit2.http.Query;
 
 
 public interface StackApiClient {
-    @GET("/2.2/questions/?order=desc&sort=activity&site=stackoverflow&filter=withbody")
+    @GET("/2.2/questions/?site=stackoverflow&filter=withbody")
     Call<QuestionClass> getQuestions(
-            @Query("tagged") String tag
+            @Query("tagged") String tag,
+            @Query("sort") String sort,
+            @Query("order") String order
     );
 }

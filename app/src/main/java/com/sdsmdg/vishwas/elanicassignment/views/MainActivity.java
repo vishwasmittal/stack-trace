@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
@@ -33,14 +35,19 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private QuestionListAdapter questionListAdapter;
     private QuestionClass questions;
+    private Menu menu;
+    private String query = "Android";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PresenterClass.startActivity(MainActivity.this, getSearchQuery());
+        Log.e("onCreate", "Inside");
+        query = getSearchQuery();
+        PresenterClass.startActivity(MainActivity.this, query);
     }
 
     public String getSearchQuery() {
+        Log.e("getSearchQuery", "Inside");
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
@@ -54,11 +61,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showSplash() {
+        Log.e("showSplash", "Inside");
         setContentView(R.layout.splash_screen);
     }
 
-
     public void startMainActivity(String query) {
+        Log.e("startMainActivity", "Inside");
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
         questions = new QuestionClass();
         questionListAdapter = new QuestionListAdapter(MainActivity.this, questions);
         questionList.setAdapter(questionListAdapter);
-        getData(MainActivity.this, query);
+        getData(MainActivity.this, query, null, null);
+        Log.e("startMainActivity", "exit");
     }
 
     public void showProgressBar() {
@@ -118,12 +127,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+        Log.e("onSupportNavigationUp", "Inside");
         onBackPressed();
         return true;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        Log.e("onCreateOptionsMenu", "Menu created");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -136,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchView.clearFocus();
-//                getData(MainActivity.this, query);
                 return false;
             }
 
@@ -146,5 +157,56 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.e("onOptionsItemSelected", "Inside");
+        String orderby = null;
+        String sort = null;
+        switch(item.getItemId()){
+            case R.id.search:
+                Log.e("onOptionsItemSelected", "Search option chosen");
+                return true;
+            case R.id.activity:
+                sort = "activity";
+                break;
+            case R.id.votes:
+                sort = "votes";
+                break;
+            case R.id.creation:
+                sort = "creation";
+                break;
+            case R.id.hot:
+                sort = "hot";
+                break;
+            case R.id.week:
+                sort = "week";
+                break;
+            case R.id.month:
+                sort = "month";
+                break;
+            case R.id.ascending:
+                orderby = "asc";
+                break;
+            case R.id.descending:
+                orderby = "desc";
+                break;
+            default: return false;
+        }
+        getData(MainActivity.this, query, sort, orderby);
+        return true;
+    }
+
+    public void temp(int id){
+        Log.e("Temp", "Inside");
+        try {
+        Log.e("temp, ID", String.valueOf(id));
+            MenuItem menuItem = menu.findItem(id);
+            menuItem.setChecked(true);
+        } catch (Exception e){
+            Log.e("temp", "Error");
+            e.printStackTrace();
+        }
     }
 }
