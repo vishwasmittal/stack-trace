@@ -32,4 +32,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     compile 'jp.wasabeef:glide-transformations:3.0.1'
+    compile 'com.lsjwzh.widget:FastTextView:1.2.0'
 }
