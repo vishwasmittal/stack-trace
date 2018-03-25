@@ -23,12 +23,13 @@ import com.sdsmdg.vishwas.elanicassignment.EndlessRecyclerViewScrollListener;
 import com.sdsmdg.vishwas.elanicassignment.SuggestionProvider;
 import com.sdsmdg.vishwas.elanicassignment.adapters.QuestionListAdapter;
 import com.sdsmdg.vishwas.elanicassignment.R;
+import com.sdsmdg.vishwas.elanicassignment.interfaces.IUIController;
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 import com.sdsmdg.vishwas.elanicassignment.presenters.PresenterClass;
 
-import static com.sdsmdg.vishwas.elanicassignment.presenters.PresenterClass.getData;
+//import static com.sdsmdg.vishwas.elanicassignment.presenters.PresenterClass;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IUIController {
 
     private ImageView statusImage;
     private Toolbar toolbar;
@@ -41,12 +42,15 @@ public class MainActivity extends AppCompatActivity {
     private int page;
     private EndlessRecyclerViewScrollListener scrollListener;
 
+    private PresenterClass presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e("onCreate", "Inside");
         query = getSearchQuery();
-        PresenterClass.startActivity(MainActivity.this, query);
+        presenter = new PresenterClass(this);
+        presenter.startActivity(query);
     }
 
     public String getSearchQuery() {
@@ -91,11 +95,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.e("onLoadMore", "Page no: " + String.valueOf(page));
-                getData(MainActivity.this, query, null, null, page);
+                presenter.getData(query, null, null, page);
             }
         };
         questionList.addOnScrollListener(scrollListener);
-        getData(MainActivity.this, query, null, null, 1);
+        presenter.getData(query, null, null, 1);
         Log.e("startMainActivity", "exit");
     }
 
@@ -108,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addItems(QuestionClass questions) {
-//        this.questions.setItems(questions.getItems());
         this.questions.addItems(questions.getItems());
         questionListAdapter.notifyDataSetChanged();
     }
@@ -222,11 +225,11 @@ public class MainActivity extends AppCompatActivity {
                 return false;
         }
         scrollListener.resetState();
-        getData(MainActivity.this, query, sort, orderby, 1);
+        presenter.getData(query, sort, orderby, 1);
         return true;
     }
 
-    public void temp(int id) {
+    public void setItemSelected(int id) {
         Log.e("Temp", "Inside");
         try {
             Log.e("temp, ID", String.valueOf(id));

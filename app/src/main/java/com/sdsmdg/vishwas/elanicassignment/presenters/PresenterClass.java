@@ -6,6 +6,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.sdsmdg.vishwas.elanicassignment.R;
+import com.sdsmdg.vishwas.elanicassignment.interfaces.IUIController;
 import com.sdsmdg.vishwas.elanicassignment.views.MainActivity;
 import com.sdsmdg.vishwas.elanicassignment.interfaces.StackApiClient;
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
@@ -23,19 +24,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PresenterClass {
 
-    private static String ORDER_BY = "desc";
-    private static String SORT = "activity";
-    private static final String DEFAULT_SEARCH = "android";
+    private String ORDER_BY = "desc";
+    private String SORT = "activity";
+    private final String DEFAULT_SEARCH = "android";
+    private IUIController controller;
 
-    public static void startActivity(final MainActivity object, String query) {
+    public PresenterClass(IUIController controller) {
+        this.controller = controller;
+    }
+
+    public void startActivity(String query) {
         if (query == null) {
-            object.showSplash();
+            controller.showSplash();
 
             final Handler handler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
-                    object.startMainActivity(DEFAULT_SEARCH);
+                    controller.startMainActivity(DEFAULT_SEARCH);
                 }
             };
             Thread thread = new Thread(new Runnable() {
@@ -51,12 +57,12 @@ public class PresenterClass {
             });
             thread.start();
         } else {
-            object.startMainActivity(query);
-            object.setDisplayHomeAsUpEnabled();
+            controller.startMainActivity(query);
+            controller.setDisplayHomeAsUpEnabled();
         }
     }
 
-    private static StackApiClient setUpRestClient() {
+    private StackApiClient setUpRestClient() {
         String API_BASE_URL = "https://api.stackexchange.com";
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -66,15 +72,15 @@ public class PresenterClass {
         return retrofit.create(StackApiClient.class);
     }
 
-    public static void getData(final MainActivity context, String query, final String sort, String order_by, final int page) {
+    public void getData(String query, final String sort, String order_by, final int page) {
         SORT = (sort != null) ? sort : SORT;
         ORDER_BY = (order_by != null) ? order_by : ORDER_BY;
 
 //        context.temp(getMenuItemID(ORDER_BY));
 //        context.temp(getMenuItemID(SORT));
 
-        if (page == 1)  context.clearScreen();
-        context.showProgressBar();
+        if (page == 1) controller.clearScreen();
+        controller.showProgressBar();
         StackApiClient client = setUpRestClient();
         Call<QuestionClass> call = client.getQuestions(query, SORT, ORDER_BY, page);
         call.enqueue(new Callback<QuestionClass>() {
@@ -82,23 +88,23 @@ public class PresenterClass {
             public void onResponse(Call<QuestionClass> call, Response<QuestionClass> response) {
                 Log.e("order_by", ORDER_BY);
                 Log.e("sort", SORT);
-                context.temp(getMenuItemID(ORDER_BY));
-                context.temp(getMenuItemID(SORT));
-                context.setMenuItemText(SORT, ORDER_BY);
-                context.hideProgressBar();
+                controller.setItemSelected(getMenuItemID(ORDER_BY));
+                controller.setItemSelected(getMenuItemID(SORT));
+                controller.setMenuItemText(SORT, ORDER_BY);
+                controller.hideProgressBar();
                 if (response.isSuccessful()) {
                     QuestionClass questions = response.body();
                     Log.e("onResponse", "Success, items" + String.valueOf(questions.getSize()));
                     if (questions.getSize() == 0 && page == 1) {
-                        context.noResultFound();
+                        controller.noResultFound();
                     } else {
-                        context.clearImage();
+                        controller.clearImage();
                     }
-                    context.addItems(questions);
+                    controller.addItems(questions);
                 } else {
                     Log.e("onResponse", "response unsuccessful, " + response.toString());
-                    context.clearAdapter();
-                    context.httpError();
+                    controller.clearAdapter();
+                    controller.httpError();
                 }
             }
 
@@ -107,18 +113,18 @@ public class PresenterClass {
                 t.printStackTrace();
                 if (t instanceof HttpException) {
                     Log.e("onFailure", "HTTP Exception");
-                    context.httpError();
+                    controller.httpError();
                 } else if (t instanceof IOException) {
                     Log.e("onFailure", "IOError");
-                    context.connectionError();
+                    controller.connectionError();
                 } else {
-                    context.unknownError();
+                    controller.unknownError();
                 }
             }
         });
     }
 
-    public static int getMenuItemID(String itemString) {
+    private int getMenuItemID(String itemString) {
         switch (itemString) {
             case "asc":
                 return R.id.ascending;

@@ -3,6 +3,7 @@ package com.sdsmdg.vishwas.elanicassignment.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -21,6 +22,7 @@ import com.lsjwzh.widget.text.FastTextView;
 import com.lsjwzh.widget.text.ReadMoreTextView;
 import com.lsjwzh.widget.text.StrokeSpan;
 import com.sdsmdg.vishwas.elanicassignment.R;
+import com.sdsmdg.vishwas.elanicassignment.models.Items;
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 
 
@@ -29,13 +31,13 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
     private QuestionClass questionObject;
     private Context context;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView username;
-        public ReadMoreTextView questionTitle;
-        public FastTextView questionText;
-        public ImageView profilePic;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView username;
+        ReadMoreTextView questionTitle;
+        FastTextView questionText;
+        ImageView profilePic;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.username);
             questionTitle = itemView.findViewById(R.id.question_title);
@@ -52,15 +54,16 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public QuestionListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public QuestionListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_item, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(QuestionListAdapter.ViewHolder holder, int position) {
-        final QuestionClass.Items item = questionObject.getItems().get(position);
+    public void onBindViewHolder(@NonNull QuestionListAdapter.ViewHolder holder, int position) {
+        final Items item = questionObject.getItems().get(position);
         holder.questionText.setText(Html.fromHtml(item.getBody()));
         holder.username.setText(item.getOwner().getDisplay_name());
 
