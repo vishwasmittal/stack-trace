@@ -2,11 +2,8 @@ package com.sdsmdg.vishwas.elanicassignment.interfaces;
 
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 
-/**
- * Created by vishwas on 25/3/18.
- */
 
-public interface IUIController {
+public interface IActivityView {
     public void showSplash();
 
     public void setDisplayHomeAsUpEnabled();
@@ -35,5 +32,5 @@ public interface IUIController {
 
     public void setMenuItemText(String sort, String orderby);
 
-    public void setItemSelected(int id);
+    public void setMenuItemSelected(int id);
 }

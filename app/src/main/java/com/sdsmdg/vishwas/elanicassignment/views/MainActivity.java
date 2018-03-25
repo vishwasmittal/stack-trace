@@ -23,38 +23,33 @@ import com.sdsmdg.vishwas.elanicassignment.EndlessRecyclerViewScrollListener;
 import com.sdsmdg.vishwas.elanicassignment.SuggestionProvider;
 import com.sdsmdg.vishwas.elanicassignment.adapters.QuestionListAdapter;
 import com.sdsmdg.vishwas.elanicassignment.R;
-import com.sdsmdg.vishwas.elanicassignment.interfaces.IUIController;
+import com.sdsmdg.vishwas.elanicassignment.interfaces.IActivityView;
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 import com.sdsmdg.vishwas.elanicassignment.presenters.PresenterClass;
 
-//import static com.sdsmdg.vishwas.elanicassignment.presenters.PresenterClass;
 
-public class MainActivity extends AppCompatActivity implements IUIController {
+public class MainActivity extends AppCompatActivity implements IActivityView {
 
     private ImageView statusImage;
-    private Toolbar toolbar;
-    private RecyclerView questionList;
     private ProgressBar progressBar;
     private QuestionListAdapter questionListAdapter;
     private QuestionClass questions;
     private Menu menu;
     private String query = "Android";
-    private int page;
     private EndlessRecyclerViewScrollListener scrollListener;
-
     private PresenterClass presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("onCreate", "Inside");
+//        Log.e("onCreate", "Inside");
         query = getSearchQuery();
         presenter = new PresenterClass(this);
         presenter.startActivity(query);
     }
 
     public String getSearchQuery() {
-        Log.e("getSearchQuery", "Inside");
+//        Log.e("getSearchQuery", "Inside");
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
@@ -68,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements IUIController {
     }
 
     public void showSplash() {
-        Log.e("showSplash", "Inside");
+//        Log.e("showSplash", "Inside");
         setContentView(R.layout.splash_screen);
     }
 
@@ -79,13 +74,13 @@ public class MainActivity extends AppCompatActivity implements IUIController {
 
 
     public void startMainActivity(final String query) {
-        Log.e("startMainActivity", "Inside");
+//        Log.e("startMainActivity", "Inside");
         setContentView(R.layout.activity_main);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         statusImage = findViewById(R.id.status_image);
         progressBar = findViewById(R.id.simpleProgressBar);
-        questionList = findViewById(R.id.question_list);
+        RecyclerView questionList = findViewById(R.id.question_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         questionList.setLayoutManager(layoutManager);
         questions = new QuestionClass();
@@ -190,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements IUIController {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.e("onOptionsItemSelected", "Inside");
+//        Log.e("onOptionsItemSelected", "Inside");
         String orderby = null;
         String sort = null;
         switch (item.getItemId()) {
@@ -229,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements IUIController {
         return true;
     }
 
-    public void setItemSelected(int id) {
+    public void setMenuItemSelected(int id) {
         Log.e("Temp", "Inside");
         try {
             Log.e("temp, ID", String.valueOf(id));
