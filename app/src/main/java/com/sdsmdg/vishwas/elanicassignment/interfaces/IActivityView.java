@@ -4,33 +4,33 @@ import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
 
 
 public interface IActivityView {
-    public void showSplash();
+    void showSplash();
 
-    public void setDisplayHomeAsUpEnabled();
+    void setDisplayHomeAsUpEnabled();
 
-    public void startMainActivity(String query);
+    void startMainActivity(String query);
 
-    public void showProgressBar();
+    void showProgressBar();
 
-    public void hideProgressBar();
+    void hideProgressBar();
 
-    public void addItems(QuestionClass questions);
+    void addItems(QuestionClass questions);
 
-    public void clearAdapter();
+    void clearAdapter();
 
-    public void clearScreen();
+    void clearScreen();
 
-    public void noResultFound();
+    void noResultFound();
 
-    public void httpError();
+    void httpError();
 
-    public void clearImage();
+    void clearImage();
 
-    public void connectionError();
+    void connectionError();
 
-    public void unknownError();
+    void unknownError();
 
-    public void setMenuItemText(String sort, String orderby);
+    void setMenuItemText(String sort, String orderby);
 
-    public void setMenuItemSelected(int id);
+    void setMenuItemSelected(int id);
 }

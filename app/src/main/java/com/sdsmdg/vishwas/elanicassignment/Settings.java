@@ -10,11 +10,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Settings {
 
     // Constants
-    public static final String API_BASE_URL = "https://api.stackexchange.com";
+    private static final String API_BASE_URL = "https://api.stackexchange.com";
     public static final String DEFAULT_SEARCH = "android";
 
-
-    public static StackApiClient setUpRestClient() {
+    static StackApiClient setUpRestClient() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)

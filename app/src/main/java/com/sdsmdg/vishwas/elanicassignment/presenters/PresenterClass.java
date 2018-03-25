@@ -1,21 +1,11 @@
 package com.sdsmdg.vishwas.elanicassignment.presenters;
 
-import android.util.Log;
-
 import com.sdsmdg.vishwas.elanicassignment.AsyncTaskHandlers;
 import com.sdsmdg.vishwas.elanicassignment.Helpers;
 import com.sdsmdg.vishwas.elanicassignment.Settings;
 import com.sdsmdg.vishwas.elanicassignment.interfaces.IActivityView;
-import com.sdsmdg.vishwas.elanicassignment.interfaces.StackApiClient;
 import com.sdsmdg.vishwas.elanicassignment.interfaces.TaskCompleteListener;
 import com.sdsmdg.vishwas.elanicassignment.models.QuestionClass;
-
-import java.io.IOException;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.HttpException;
-import retrofit2.Response;
 
 
 public class PresenterClass implements TaskCompleteListener {
@@ -59,6 +49,8 @@ public class PresenterClass implements TaskCompleteListener {
     @Override
     public void setMenuItemSelected(String sort, String orderby) {
         view.setMenuItemSelected(helpers.getMenuItemIDFromString(sort));
+        view.setMenuItemSelected(helpers.getMenuItemIDFromString(orderby));
+        view.setMenuItemText(sort, orderby);
     }
 
     @Override

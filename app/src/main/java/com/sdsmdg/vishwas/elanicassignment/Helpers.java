@@ -25,44 +25,4 @@ public class Helpers {
                 return 0;
         }
     }
-
-//    public String[] getStringFromMenuItemID(int id){
-//        String [] result = new String[2];
-//        //        String orderby = null;
-//        String sort = null;
-//        switch (item.getItemId()) {
-//            case R.id.search:
-//                Log.e("onOptionsItemSelected", "Search option chosen");
-//                return true;
-//            case R.id.activity:
-//                sort = "activity";
-//                break;
-//            case R.id.votes:
-//                sort = "votes";
-//                break;
-//            case R.id.creation:
-//                sort = "creation";
-//                break;
-//            case R.id.hot:
-//                sort = "hot";
-//                break;
-//            case R.id.week:
-//                sort = "week";
-//                break;
-//            case R.id.month:
-//                sort = "month";
-//                break;
-//            case R.id.ascending:
-//                orderby = "asc";
-//                break;
-//            case R.id.descending:
-//                orderby = "desc";
-//                break;
-//            default:
-//                return false;
-//        }
-//        return
-//    }
-
-
 }

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,21 +34,19 @@ public class MainActivity extends AppCompatActivity implements IActivityView {
     private QuestionListAdapter questionListAdapter;
     private QuestionClass questions;
     private Menu menu;
-    private String query = "Android";
+    private String query;
     private EndlessRecyclerViewScrollListener scrollListener;
     private PresenterClass presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Log.e("onCreate", "Inside");
         query = getSearchQuery();
         presenter = new PresenterClass(this);
         presenter.startActivity(query);
     }
 
     public String getSearchQuery() {
-//        Log.e("getSearchQuery", "Inside");
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
@@ -63,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements IActivityView {
     }
 
     public void showSplash() {
-//        Log.e("showSplash", "Inside");
         setContentView(R.layout.splash_screen);
     }
 
@@ -74,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements IActivityView {
 
 
     public void startMainActivity(final String query) {
-//        Log.e("startMainActivity", "Inside");
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -89,13 +84,11 @@ public class MainActivity extends AppCompatActivity implements IActivityView {
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.e("onLoadMore", "Page no: " + String.valueOf(page));
                 presenter.getData(query, null, null, page);
             }
         };
         questionList.addOnScrollListener(scrollListener);
         presenter.getData(query, null, null, 1);
-        Log.e("startMainActivity", "exit");
     }
 
     public void showProgressBar() {
@@ -143,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements IActivityView {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Log.e("onSupportNavigationUp", "Inside");
         onBackPressed();
         return true;
     }
@@ -151,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements IActivityView {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        Log.e("onCreateOptionsMenu", "Menu created");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -178,19 +169,26 @@ public class MainActivity extends AppCompatActivity implements IActivityView {
     public void setMenuItemText(String sort, String orderby) {
         MenuItem sortItem = menu.findItem(R.id.sort);
         MenuItem orderbyItem = menu.findItem(R.id.order_by);
-
         sortItem.setTitle(getString(R.string.sort) + " - " + sort.toUpperCase().charAt(0) + sort.substring(1, sort.length()));
         orderbyItem.setTitle(getString(R.string.order_by) + " - " + orderby.toUpperCase().charAt(0) + orderby.substring(1, orderby.length()));
     }
 
     @Override
+    public void setMenuItemSelected(int id) {
+        try {
+            MenuItem menuItem = menu.findItem(id);
+            menuItem.setChecked(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        Log.e("onOptionsItemSelected", "Inside");
         String orderby = null;
         String sort = null;
         switch (item.getItemId()) {
             case R.id.search:
-                Log.e("onOptionsItemSelected", "Search option chosen");
                 return true;
             case R.id.activity:
                 sort = "activity";
@@ -222,17 +220,5 @@ public class MainActivity extends AppCompatActivity implements IActivityView {
         scrollListener.resetState();
         presenter.getData(query, sort, orderby, 1);
         return true;
-    }
-
-    public void setMenuItemSelected(int id) {
-        Log.e("Temp", "Inside");
-        try {
-            Log.e("temp, ID", String.valueOf(id));
-            MenuItem menuItem = menu.findItem(id);
-            menuItem.setChecked(true);
-        } catch (Exception e) {
-            Log.e("temp", "Error");
-            e.printStackTrace();
-        }
     }
 }
